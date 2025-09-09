@@ -1,0 +1,228 @@
+{
+  "dashboard": {
+    "id": "ffY1RDVFUIYNnhayBnbvf",
+    "name": "Cost Analysis",
+    "layout": {
+      "sections": [
+        {
+          "id": {
+            "value": "8d377b39-862f-4deb-a132-d98edf3dfb73"
+          },
+          "rows": [
+            {
+              "id": {
+                "value": "292cd78a-f422-410e-9020-8ee482a227cb"
+              },
+              "appearance": {
+                "height": 19
+              },
+              "widgets": [
+                {
+                  "id": {
+                    "value": "54e82161-4306-4d7c-b27d-43b4120de75f"
+                  },
+                  "title": "Card/Currency Counts Past 2 days",
+                  "definition": {
+                    "dataTable": {
+                      "query": {
+                        "dataprime": {
+                          "dataprimeQuery": {
+                            "text": "source logs\n| filter now() - $m.timestamp < 2d\n| groupby $d.cardType, $d.request.amount.currencyCode aggregate count() as $d.log_count"
+                          },
+                          "filters": []
+                        }
+                      },
+                      "resultsPerPage": 100,
+                      "rowStyle": "ROW_STYLE_ONE_LINE",
+                      "columns": [
+                        {
+                          "field": "$d.cardType"
+                        },
+                        {
+                          "field": "$d.request.amount.currencyCode"
+                        },
+                        {
+                          "field": "$d.log_count"
+                        },
+                        {
+                          "field": "$d.request"
+                        }
+                      ],
+                      "dataModeType": "DATA_MODE_TYPE_HIGH_UNSPECIFIED"
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "options": {
+            "custom": {
+              "name": "New Section",
+              "collapsed": false,
+              "color": {
+                "predefined": "SECTION_PREDEFINED_COLOR_UNSPECIFIED"
+              }
+            }
+          }
+        },
+        {
+          "id": {
+            "value": "9cb43cb2-11de-4174-b594-becd5d5c6ce9"
+          },
+          "rows": [
+            {
+              "id": {
+                "value": "917eda14-3c89-4c51-91bc-a6b9ee847b8e"
+              },
+              "appearance": {
+                "height": 19
+              },
+              "widgets": [
+                {
+                  "id": {
+                    "value": "e355b1fe-baf1-46d3-a58d-c06eec97d79d"
+                  },
+                  "title": "Average Unit Sold Over Time",
+                  "definition": {
+                    "lineChart": {
+                      "legend": {
+                        "isVisible": true,
+                        "columns": [],
+                        "groupByQuery": true,
+                        "placement": "LEGEND_PLACEMENT_AUTO"
+                      },
+                      "tooltip": {
+                        "showLabels": false,
+                        "type": "TOOLTIP_TYPE_ALL"
+                      },
+                      "queryDefinitions": [
+                        {
+                          "id": "8f0eba25-008a-4661-b8d6-de4d6195bc61",
+                          "query": {
+                            "metrics": {
+                              "promqlQuery": {
+                                "value": "avg(payment_units)"
+                              },
+                              "filters": [],
+                              "editorMode": "METRICS_QUERY_EDITOR_MODE_TEXT"
+                            }
+                          },
+                          "seriesCountLimit": "20",
+                          "unit": "UNIT_UNSPECIFIED",
+                          "scaleType": "SCALE_TYPE_LINEAR",
+                          "name": "Query 1",
+                          "isVisible": true,
+                          "colorScheme": "classic",
+                          "resolution": {
+                            "bucketsPresented": 96
+                          },
+                          "dataModeType": "DATA_MODE_TYPE_HIGH_UNSPECIFIED",
+                          "customUnit": "",
+                          "decimal": 2,
+                          "hashColors": false,
+                          "decimalPrecision": false
+                        }
+                      ],
+                      "stackedLine": "STACKED_LINE_UNSPECIFIED",
+                      "connectNulls": false
+                    }
+                  }
+                },
+                {
+                  "id": {
+                    "value": "92d3c83f-3aca-4784-8a7a-153804213630"
+                  },
+                  "title": "Max Units",
+                  "definition": {
+                    "gauge": {
+                      "query": {
+                        "metrics": {
+                          "promqlQuery": {
+                            "value": "max_over_time(payment_units[${__range}])"
+                          },
+                          "aggregation": "AGGREGATION_UNSPECIFIED",
+                          "filters": [],
+                          "editorMode": "METRICS_QUERY_EDITOR_MODE_TEXT",
+                          "promqlQueryType": "PROM_QL_QUERY_TYPE_INSTANT"
+                        }
+                      },
+                      "min": 0,
+                      "max": 100,
+                      "showInnerArc": true,
+                      "showOuterArc": true,
+                      "unit": "UNIT_NUMBER",
+                      "thresholds": [
+                        {
+                          "from": 0,
+                          "color": "var(--c-severity-log-verbose)"
+                        },
+                        {
+                          "from": 33,
+                          "color": "var(--c-severity-log-warning)"
+                        },
+                        {
+                          "from": 66,
+                          "color": "var(--c-severity-log-error)"
+                        }
+                      ],
+                      "dataModeType": "DATA_MODE_TYPE_HIGH_UNSPECIFIED",
+                      "thresholdBy": "THRESHOLD_BY_UNSPECIFIED",
+                      "customUnit": "",
+                      "decimal": 2,
+                      "thresholdType": "THRESHOLD_TYPE_RELATIVE",
+                      "legend": {
+                        "isVisible": true,
+                        "columns": [],
+                        "groupByQuery": true,
+                        "placement": "LEGEND_PLACEMENT_AUTO"
+                      },
+                      "legendBy": "LEGEND_BY_GROUPS",
+                      "displaySeriesName": true,
+                      "decimalPrecision": false
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "options": {
+            "internal": {}
+          }
+        }
+      ]
+    },
+    "variables": [],
+    "variablesV2": [],
+    "filters": [
+      {
+        "source": {
+          "logs": {
+            "operator": {
+              "equals": {
+                "selection": {
+                  "list": {
+                    "values": [
+                      "payment"
+                    ]
+                  }
+                }
+              }
+            },
+            "observationField": {
+              "keypath": [
+                "subsystemname"
+              ],
+              "scope": "DATASET_SCOPE_LABEL"
+            }
+          }
+        },
+        "enabled": true,
+        "collapsed": false
+      }
+    ],
+    "relativeTimeFrame": "86400s",
+    "annotations": [],
+    "off": {},
+    "actions": []
+  }
+}

@@ -1,0 +1,26 @@
+opentelemetry-agent:
+  extraConfig:
+    service:
+      pipelines:
+        traces:
+          # receivers: [otlp]
+           processors:
+             # - k8sattributes
+             - transform/sanitize_span_name
+             # - batch
+           # exporters: [coralogix]
+    processors:
+      transform/sanitize_span_name:
+        error_mode: ignore
+        trace_statements:
+          - context: span
+            statements:
+              - replace_pattern(name,"sessionId=[a-f0-9\\-]+","sessionId={sessionId}")
+              - replace_pattern(name,"productIds=[A-Z0-9]+","productIds={productId}")
+              - replace_pattern(name,"/api/products/[A-Z0-9]+","/api/products/{productId}")
+    connectors:
+      spanmetrics:
+        # stop tracking new metric-series once 100 unique dimension
+        # combinations are seen during a collection cycle
+        # enabled: true
+        aggregation_cardinality_limit: 10000
