@@ -88,7 +88,7 @@ if kubectl get pods --no-headers | grep -q 'kafka' | grep -q 'Running' > /dev/nu
   echo "OpenTelemetry Demo install already done."
 else
   echo "Installing the OpenTelemetry Demo using Helm..."
-  helm upgrade --install my-otel-demo open-telemetry/opentelemetry-demok ll -f otel-demo-overrides.yaml
+  helm upgrade --install my-otel-demo open-telemetry/opentelemetry-demo -f otel-demo-overrides.yaml
 
   echo "Waiting for OpenTelemetry Demo pods to be ready..."
   sleep 2
@@ -99,10 +99,3 @@ else
 fi
 
 echo "OpenTelemetry Demo installation complete!"
-
-
-
-curl -X POST "https://api.coralogix.com/api/v1/dashboards" \
--H "Authorization: Bearer ${CORALOGIX_API_KEY}" \
--H "Content-Type: application/json" \
--d @dashboard.json

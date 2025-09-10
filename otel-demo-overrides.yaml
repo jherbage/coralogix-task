@@ -14,6 +14,9 @@ default:
 
 components:
   kafka:
+    resources:
+      limits:
+        memory: 1G
     env:
       - name: KAFKA_ADVERTISED_LISTENERS
         value: PLAINTEXT://kafka:9092
@@ -23,6 +26,10 @@ components:
         value: -Xmx400M -Xms400M -XX:UseSVE=0 -XX:+UnlockDiagnosticVMOptions
       - name: KAFKA_GC_LOG_OPTS
         value: -Xloggc:/tmp/gc.log -verbose:gc -XX:+PrintGCDetails
+  accounting:
+    resources:
+      limits:
+        memory: 240Mi
   ad:
     resources:
       limits:
@@ -40,10 +47,18 @@ components:
         value: otlp
       - name: JAVA_OPTS
         value: -XX:UseSVE=0
+  email:
+    resources:
+      limits:
+        memory: 200Mi
   fraud-detection:
     resources:
       limits:
         memory: 500Mi
+  product-catalog:
+    resources:
+      limits:
+        memory: 100Mi
 
 opensearch:
   enabled: false
