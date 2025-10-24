@@ -27,7 +27,7 @@
                       "query": {
                         "dataprime": {
                           "dataprimeQuery": {
-                            "text": "source logs\n| filter now() - $m.timestamp < 2d\n| filter cardType != null && amount.currencyCode != null\n| groupby cardType, amount.currencyCode aggregate count() as log_count"
+                            "text": "source logs | filter now() - $m.timestamp < 2d | filter cardType != null && amount.currencyCode != null | groupby cardType, amount.currencyCode aggregate count() as log_count"
                           },
                           "filters": []
                         }
